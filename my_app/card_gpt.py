@@ -91,7 +91,7 @@ def conversation_with_memory(question):
 
     # 3. 사용자의 입력과 ai 응답을 memory에 명시적으로 저장
     st.session_state["pre_memory"].save_context(
-        {"question": question},
+        {"input": question},
         {"output": full_response}
     )
 
