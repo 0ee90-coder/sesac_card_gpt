@@ -98,40 +98,40 @@ def conversation_with_memory(question):
     # 4. session_state["messages"]에 저장할 용도로 full_response 반환
     return full_response
 
-    # ======================================== 메인화면 설정 ========================================
+# ======================================== 메인화면 설정 ========================================
 
-    st.title("My GPT")
+st.title("My GPT")
 
-    # 1. 대화 기록 출력
-    # 반복문으로 messages에 있는 모든 대화 기록에 접근
-    for message in st.session_state["messages"]:
-        # chat_message: 메시지의 발신자 role(assistant인지 user인지)에 따라 UI를 구분하여 메시지 창을 표시해주는 함수 
-        with st.chat_message(message["role"]):  #역할 지정
-            st.write(message["content"])    # 해당 역할의 메시지 출력
+# 1. 대화 기록 출력
+# 반복문으로 messages에 있는 모든 대화 기록에 접근
+for message in st.session_state["messages"]:
+    # chat_message: 메시지의 발신자 role(assistant인지 user인지)에 따라 UI를 구분하여 메시지 창을 표시해주는 함수 
+    with st.chat_message(message["role"]):  #역할 지정
+        st.write(message["content"])    # 해당 역할의 메시지 출력
 
-    # 2. 사용자 질의 작성
-    question = st.chat_input("사용자 입력")
+# 2. 사용자 질의 작성
+question = st.chat_input("사용자 입력")
 
-    # 3. 사용자 질의 입력 & 출력
-    if question:
-        # 사용자의 텍스트를 세션의 message에 추가
-        st.session_state["messages"].append({"role": "user", "content": question})
-        with st.chat_message("user"):
-            st.write(question)
+# 3. 사용자 질의 입력 & 출력
+if question:
+    # 사용자의 텍스트를 세션의 message에 추가
+    st.session_state["messages"].append({"role": "user", "content": question})
+    with st.chat_message("user"):
+        st.write(question)
 
-    # 4. ai 답변 생성 & 출력
-    if st.session_state["messages"][-1]["role"] != "assistant": # messages리스트에 담긴 메시지가 ai가 아닌 경우
-        with st.chat_message("assistant"):
-            try:
-                ai_response = conversation_with_memory(question)
-                st.session_state["messages"].append({"role": "assistant", "content": ai_response})
+# 4. ai 답변 생성 & 출력
+if st.session_state["messages"][-1]["role"] != "assistant": # messages리스트에 담긴 메시지가 ai가 아닌 경우
+    with st.chat_message("assistant"):
+        try:
+            ai_response = conversation_with_memory(question)
+            st.session_state["messages"].append({"role": "assistant", "content": ai_response})
 
-            except Exception as e: 
-                error_ = f"""\
+        except Exception as e: 
+            error_ = f"""\
 에러가 발생했습니다. 메시지를 다시 입력해주세요.
 
 발생 에러: {e}
 """
-            st.error(error_)
+        st.error(error_)
 
-            # 스트림릿 강의안 보면 마지막 부분에 배포에 대해서 올려둠
+        # 스트림릿 강의안 보면 마지막 부분에 배포에 대해서 올려둠
